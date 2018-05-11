@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="app.entities.UserEntity" table="user" schema="test">
+        <id name="userId">
+            <column name="USER_ID" sql-type="int(10) unsigned"/>
+        </id>
+        <property name="name">
+            <column name="NAME" sql-type="varchar(20)" length="20"/>
+        </property>
+        <property name="year">
+            <column name="YEAR" sql-type="varchar(20)" length="20"/>
+        </property>
+        <property name="date">
+            <column name="DATE" sql-type="date"/>
+        </property>
+        <property name="pass">
+            <column name="PASS" sql-type="varchar(20)" length="20"/>
+        </property>
+    </class>
+</hibernate-mapping>
