@@ -1,6 +1,8 @@
 package app.servlets;
 
-import app.model.Model;
+import app.entities.UserEntity;
+import app.service.userService;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DateServlet extends HttpServlet {
+    private app.service.userService userService;
     public DateServlet() {
     }
 
@@ -21,21 +24,12 @@ public class DateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        Model model = Model.getInstance();
-        List<String> names = model.listName();
-        int index = 0;
-
-        for(Iterator var7 = names.iterator(); var7.hasNext(); ++index) {
-            String nameCheck = (String)var7.next();
-            if (nameCheck.equals(name)) {
-                req.setAttribute("userName", name);
-                req.setAttribute("year", model.getYear(index));
-                req.setAttribute("date", model.getUserDate(index));
-                req.setAttribute("id", model.getUserid(index));
-                break;
-            }
-        }
-
+        Integer id = userService.getUserId(name);
+        UserEntity user = userService.getUser(id);
+        req.setAttribute("userName", user.getName());
+        req.setAttribute("year", user.getYear());
+        req.setAttribute("date", user.getDate());
+        req.setAttribute("id", id);
         this.doGet(req, resp);
     }
 }

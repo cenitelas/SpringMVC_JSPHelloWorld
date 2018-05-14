@@ -1,7 +1,5 @@
 package app.servlets;
 
-import app.model.Model;
-
 import javax.servlet.*;
 import java.io.IOException;
 

@@ -18,19 +18,7 @@
     <div class="w3-card-4">
         <div class="w3-container w3-center w3-green">
             <h2>Регистрация</h2>
-            <%
-                if (request.getAttribute("userName") != null) {
-                    if(request.getAttribute("check") != "false")
-                        out.println("<p>Пользователь " + request.getAttribute("userName") + " успешно зарегистрирован!</p>");
-                    else
-                        out.println("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n"
-                                +
-                                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey\">×</span>\n" +
-                                "   <h5>Пользователь " + request.getAttribute("userName") + " сушествует!</h5>\n" +
-                                "</div>");
-                }
-            %>
+            ${message}
         </div>
 
         <form action="add" method="post" class="w3-selection w3-light-grey w3-padding">
@@ -49,7 +37,7 @@
 </div>
 
 <div class="w3-container w3-grey w3-opacity w3-right-align w3-padding">
-    <button class="w3-btn w3-round-large" onclick="location.href='/'">В главное меню</button>
+    <button class="w3-btn w3-round-large" onclick="location.href='..'">В главное меню</button>
 </div>
 </body>
 </html>

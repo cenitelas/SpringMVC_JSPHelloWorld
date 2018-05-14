@@ -71,7 +71,7 @@
     <span class="close">&times;</span>
 </div>
 <div class="w3-container w3-grey w3-opacity w3-right-align w3-padding">
-    <button class="w3-btn w3-round-large" onclick="location.href='/'">В главное меню</button>
+    <button class="w3-btn w3-round-large" onclick="location.href='..'">В главное меню</button>
 </div>
 <script>
     // Get the modal
