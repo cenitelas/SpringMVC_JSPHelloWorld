@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class userServiceImpl implements userService {
@@ -15,14 +16,33 @@ public class userServiceImpl implements userService {
     private daoUser userDAO;
 
     @Transactional
-    public void addUser(UserEntity user){
-        userDAO.addUser(user);
+    public boolean addUser(Map<String, String> map){
+        Date data = new Date();
+        UserEntity user = new UserEntity();
+        user.setPass(map.get("pass"));
+        user.setName(map.get("name"));
+        user.setYear(map.get("year"));
+        user.setDate(data);
+        boolean check = true;
+        for (String userName : listUserName()) {
+            if (map.get("name").equals(userName)) {
+                check = false;
+                break;
+            }
+        }
+        if (check) {
+            userDAO.addUser(user);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Transactional
     public List<String> listUserName(){
         System.out.println("Service");
-        return userDAO.listUserName();
+        return userDAO.listUserName().stream().map(UserEntity::getName).collect(Collectors.toList());
     }
 
     @Transactional
@@ -41,7 +61,29 @@ public class userServiceImpl implements userService {
     }
 
     @Transactional
-    public void updateUser(UserEntity user){
+    public void updatePass(Integer id, String pass){
+        UserEntity user = userDAO.getUser(id);
+        user.setPass(pass);
         userDAO.updateUser(user);
+    }
+
+    @Transactional
+    public Map<String, String> logon(Map<String, String> map){
+       Map<String, String> rMap=new HashMap<>();
+        rMap.put("name","null");
+        Integer id=userDAO.getUserId(map.get("name"));
+        if(id!=0) {
+                    UserEntity user = userDAO.getUser(id);
+                    if (user.getPass().equals(map.get("pass"))) {
+                        System.out.println(user.getPass());
+                        rMap.replace("name", user.getName());
+                        rMap.put("year", user.getYear());
+                        rMap.put("date", user.getDate().toString());
+                        rMap.put("id", id.toString());
+                    } else {
+                        return rMap;
+                    }
+                }
+        return rMap;
     }
 }

@@ -1,3 +1,5 @@
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
   <%session.setAttribute("userName",request.getAttribute("userName"));
       session.setAttribute("id", request.getAttribute("id"));%>
@@ -49,14 +51,15 @@
 
 </head>
 <body class="w3-light-grey">
-
 <div class="w3-container w3-center w3-margin-bottom w3-padding">
     <div class="w3-card-4">
         <div class="w3-container w3-light-blue">
             <h2 >Страница пользователя</h2>
             </div>
+
         <ul class="w3-ul">
-        <li class="w3-hover-sand">Ваше имя - ${userName}</li>
+            <li class="w3-hover-sand">Ваш id - ${id}</li>
+        <li class="w3-hover-sand">Ваше имя - ${name}</li>
             <li class="w3-hover-sand">Ваш возраст - ${year}</li>
             <li class="w3-hover-sand">Дата регистрации - ${date}</li></ul>
     </div>
@@ -86,17 +89,13 @@
     // When the user clicks on the button, open the modal
     btn.onclick = function() {
         modal.style.display = "block";
-        $.ajax({
-            type: "POST",
-            url: 'views/repass.jsp',
-            success: function (result) {
+        $.post(
+            "/repass",
+            function( result ) {
                 debugger;
                 $("#myModal").html(result);
-            },
-            error: function (e) {
-                alert('Errore');
             }
-        });
+        );
     }
 
     // When the user clicks on <span> (x), close the modal

@@ -33,7 +33,7 @@ public class daoUserImpl implements daoUser {
     }
 
     @SuppressWarnings("unchecked")
-    public List<String> listUserName() {
+    public List<UserEntity> listUserName() {
         System.out.println("go");
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         List<UserEntity> list = new ArrayList();
@@ -51,7 +51,7 @@ public class daoUserImpl implements daoUser {
             session.close();
         }
         System.out.println("end");
-        return list.stream().map(UserEntity::getName).collect(Collectors.toList());
+        return list;
     }
 
     @SuppressWarnings("unchecked")
@@ -78,18 +78,14 @@ public class daoUserImpl implements daoUser {
     public int getUserId(String name){
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         UserEntity user = new UserEntity();
-        try {
-            session.beginTransaction();
-            user= session.get(UserEntity.class, name);
-            session.getTransaction().commit();
-        } catch (HibernateException ex) {
-            if (session.beginTransaction() != null) {
-                session.beginTransaction().rollback();
-            }
-            Logger.getLogger("con").info("Exception: " + ex.getMessage());
-            ex.printStackTrace(System.err);
-        } finally {
-            session.close();
+        List<UserEntity> list = listUserName();
+        int index=0;
+       for(String username:list.stream().map(UserEntity::getName).collect(Collectors.toList())){
+         if(username.equals(name)){
+             user=list.get(index);
+             break;
+         }
+             index++;
         }
         return user.getUserId();
     }

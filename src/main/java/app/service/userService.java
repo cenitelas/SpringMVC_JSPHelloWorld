@@ -4,9 +4,10 @@ import app.entities.UserEntity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface  userService{
-    public void addUser(UserEntity contact);
+    public boolean addUser(Map<String, String> map);
 
     public List<String> listUserName();
 
@@ -16,5 +17,7 @@ public interface  userService{
 
     public void removeUser(Integer id);
 
-    public void updateUser(UserEntity user);
+    public void updatePass(Integer id,String pass);
+
+    public Map<String, String> logon(Map<String, String> map);
 }

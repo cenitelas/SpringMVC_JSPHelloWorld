@@ -5,12 +5,13 @@ import app.service.userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller
@@ -21,8 +22,6 @@ public class ContrServlet {
     //Link to all user
     @RequestMapping(value = "/list")
     public String list(Model model){
-
-        System.out.println(usr.listUserName());
         model.addAttribute("userNames",usr.listUserName());
         return "list";
     }
@@ -33,7 +32,7 @@ public class ContrServlet {
         return "index";
     }
 
-    //Ling to add user
+    //Link to add user
     @RequestMapping(value = "/add")
     public String add(){
         return "add";
@@ -41,36 +40,51 @@ public class ContrServlet {
 
     //Logic for add user
     @RequestMapping(value = "/add",method=RequestMethod.POST)
-    public String goReg(Model model,@RequestParam("name") String name,@RequestParam("pass") String pass,@RequestParam("year") String year ) {
-        Date data = new Date();
-        UserEntity user = new UserEntity();
-        user.setPass(pass);
-        user.setName(name);
-        user.setYear(year);
-        user.setDate(data);
-        boolean check = true;
-        for (String userName : usr.listUserName()) {
-            if (name.equals(userName)) {
-                check = false;
-                break;
-            }
-        }
-            if (check) {
-                model.addAttribute("message", "<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n"
-                        +
-                        "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                        "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                        "   <h5>Пользователь " + name + " успешно зарегистрирован!</h5>\n" +
-                        "</div>");
-                usr.addUser(user);
+    public String goReg(Model model,@RequestParam Map<String, String> map) {
+            if (usr.addUser(map)) {
+                model.addAttribute("message", "true");
+                model.addAttribute("name", map.get("name"));
             } else {
-                model.addAttribute("message", "<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n"
-                        +
-                        "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                        "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey\">×</span>\n" +
-                        "   <h5>Пользователь " + name + " сушествует!</h5>\n" +
-                        "</div>");
+                model.addAttribute("message", "false");
+                model.addAttribute("name", map.get("name"));
             }
             return "add";
         }
+
+
+    //Link logon user
+    @RequestMapping(value = "/logon")
+    public String logon() {
+        return "logon";
     }
+
+    //Logic logon user
+    @RequestMapping(value = "/cab",method=RequestMethod.POST)
+    public String goCab(Model model,@RequestParam Map<String, String> map) {
+        Map<String, String> rMap=usr.logon(map);
+        if (rMap.get("name")!="null") {
+            model.addAttribute("name", rMap.get("name"));
+            model.addAttribute("year", rMap.get("year"));
+            model.addAttribute("date", rMap.get("date"));
+            model.addAttribute("id", rMap.get("id"));
+            model.addAttribute("message", "");
+            return "cab";
+        } else {
+            model.addAttribute("message", "false");
+            return "logon";
+        }
+    }
+
+    @RequestMapping(value = "/repass",method=RequestMethod.POST)
+    public String repass(Model model,@RequestParam Map<String, String> map) {
+        model.addAttribute("id", map.get("id"));
+        return "repass";
+    }
+
+    @RequestMapping(value = "/repasslc",method=RequestMethod.POST)
+    public String repasslc(Model model,@RequestParam Map<String, String> map) {
+        usr.updatePass(Integer.parseInt(map.get("id")),map.get("pass"));
+        model.addAttribute("repass","true");
+            return "logon";
+    }
+}

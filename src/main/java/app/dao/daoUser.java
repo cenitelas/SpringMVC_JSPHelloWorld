@@ -7,7 +7,7 @@ import java.util.List;
 public interface daoUser {
     public void addUser(UserEntity contact);
 
-    public List<String> listUserName();
+    public List<UserEntity> listUserName();
 
     public UserEntity getUser(Integer id);
 
