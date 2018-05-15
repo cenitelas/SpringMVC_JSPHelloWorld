@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class daoUserImpl implements daoUser {
-
+ private SessionFactory sessionFactory;
     public void addUser(UserEntity user) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
