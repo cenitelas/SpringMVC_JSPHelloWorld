@@ -1,38 +1,33 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-  <%session.setAttribute("userName",request.getAttribute("userName"));
-      session.setAttribute("id", request.getAttribute("id"));%>
 <html>
 <head>
     <title>Страница пользователя</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <style>
-        /* The Modal (background) */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
         }
 
-        /* Modal Content/Box */
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
+            margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
+            width: 80%;
         }
 
-        /* The Close Button */
         .close {
             color: #aaa;
             float: right;
@@ -56,20 +51,17 @@
         <div class="w3-container w3-light-blue">
             <h2 >Страница пользователя</h2>
             </div>
-
+<% Map<String,String> map = (HashMap<String,String>) request.getAttribute("user");%>
         <ul class="w3-ul">
-            <li class="w3-hover-sand">Ваш id - ${id}</li>
-        <li class="w3-hover-sand">Ваше имя - ${name}</li>
-            <li class="w3-hover-sand">Ваш возраст - ${year}</li>
-            <li class="w3-hover-sand">Дата регистрации - ${date}</li></ul>
+            <li class="w3-hover-sand">Ваш id - <% out.print(map.get("id"));%></li>
+        <li class="w3-hover-sand">Ваше имя - <% out.print(map.get("name"));%></li>
+            <li class="w3-hover-sand">Ваш возраст - <% out.print(map.get("year"));%></li>
+            <li class="w3-hover-sand">Дата регистрации - <% out.print(map.get("date"));%></li></ul>
     </div>
 
 </div>
 <button class="w3-btn w3-hover-light-blue w3-round-large" id="myBtn">Сменить пароль</button>
-<!-- The Modal -->
 <div id="myModal" class="modal">
-
-    <!-- Modal content -->
 
     <span class="close">&times;</span>
 </div>
@@ -77,16 +69,9 @@
     <button class="w3-btn w3-round-large" onclick="location.href='..'">В главное меню</button>
 </div>
 <script>
-    // Get the modal
     var modal = document.getElementById('myModal');
-
-    // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal
     btn.onclick = function() {
         modal.style.display = "block";
         $.post(
@@ -98,12 +83,10 @@
         );
     }
 
-    // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
         modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";

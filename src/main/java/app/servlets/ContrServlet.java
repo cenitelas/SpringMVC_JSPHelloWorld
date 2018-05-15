@@ -63,10 +63,7 @@ public class ContrServlet {
     public String goCab(Model model,@RequestParam Map<String, String> map) {
         Map<String, String> rMap=usr.logon(map);
         if (rMap.get("name")!="null") {
-            model.addAttribute("name", rMap.get("name"));
-            model.addAttribute("year", rMap.get("year"));
-            model.addAttribute("date", rMap.get("date"));
-            model.addAttribute("id", rMap.get("id"));
+            model.addAttribute("user", rMap);
             model.addAttribute("message", "");
             return "cab";
         } else {
@@ -75,12 +72,14 @@ public class ContrServlet {
         }
     }
 
+    //Link repass user
     @RequestMapping(value = "/repass",method=RequestMethod.POST)
     public String repass(Model model,@RequestParam Map<String, String> map) {
         model.addAttribute("id", map.get("id"));
         return "repass";
     }
 
+    //Logon repass user
     @RequestMapping(value = "/repasslc",method=RequestMethod.POST)
     public String repasslc(Model model,@RequestParam Map<String, String> map) {
         usr.updatePass(Integer.parseInt(map.get("id")),map.get("pass"));
