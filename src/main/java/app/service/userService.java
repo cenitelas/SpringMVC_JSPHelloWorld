@@ -17,7 +17,7 @@ public interface  userService{
 
     public void removeUser(Integer id);
 
-    public void updatePass(Integer id,String pass);
+    public Boolean updatePass(Integer id,String pass1, String pass2);
 
     public Map<String, String> logon(Map<String, String> map);
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -6,44 +7,7 @@
     <title>Страница пользователя</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
-
-
+    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet" type="text/css">
 </head>
 <body class="w3-light-grey">
 <div class="w3-container w3-center w3-margin-bottom w3-padding">
@@ -51,7 +15,15 @@
         <div class="w3-container w3-light-blue">
             <h2 >Страница пользователя</h2>
             </div>
-<% Map<String,String> map = (HashMap<String,String>) request.getAttribute("user");%>
+       <% if (request.getAttribute("repass")=="true") {
+        out.print("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n"
+        +
+        "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
+        "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
+        "   <h5>Пароль изменен!</h5>\n" +
+        "</div>");
+    }
+Map<String,String> map = (HashMap<String,String>) request.getAttribute("user");%>
         <ul class="w3-ul">
             <li class="w3-hover-sand">Ваш id - <% out.print(map.get("id"));%></li>
         <li class="w3-hover-sand">Ваше имя - <% out.print(map.get("name"));%></li>
@@ -69,30 +41,10 @@
     <button class="w3-btn w3-round-large" onclick="location.href='..'">В главное меню</button>
 </div>
 <script>
-    var modal = document.getElementById('myModal');
-    var btn = document.getElementById("myBtn");
-    var span = document.getElementsByClassName("close")[0];
-    btn.onclick = function() {
-        modal.style.display = "block";
-        $.post(
-            "/repass",
-            function( result ) {
-                debugger;
-                $("#myModal").html(result);
-            }
-        );
-    }
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+    var name='<% out.print(map.get("name"));%>';
+    var id='<% out.print(map.get("id"));%>';
 </script>
+<script src="<c:url value="/resources/js/cab.js" />"></script>
 </body>
 </html>
 

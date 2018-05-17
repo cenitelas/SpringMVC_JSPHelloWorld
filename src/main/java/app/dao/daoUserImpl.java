@@ -14,15 +14,25 @@ import java.util.stream.Collectors;
 
 @Repository
 public class daoUserImpl implements daoUser {
- private HibernateSessionFactory sessionFactory;
     public void addUser(UserEntity user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(user);
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session.beginTransaction() != null) {
+                session.beginTransaction().rollback();
+            }
+            Logger.getLogger("con").info("Exception: " + ex.getMessage());
+            ex.printStackTrace(System.err);
+        } finally {
+            session.close();
+        }
     }
 
     @SuppressWarnings("unchecked")
     public List<UserEntity> listUserName() {
-        System.out.println("go");
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         List<UserEntity> list = new ArrayList();
         try {
@@ -38,7 +48,6 @@ public class daoUserImpl implements daoUser {
         } finally {
             session.close();
         }
-        System.out.println("end");
         return list;
     }
 

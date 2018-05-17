@@ -61,10 +61,14 @@ public class userServiceImpl implements userService {
     }
 
     @Transactional
-    public void updatePass(Integer id, String pass){
+    public Boolean updatePass(Integer id, String pass1, String pass2){
         UserEntity user = userDAO.getUser(id);
-        user.setPass(pass);
-        userDAO.updateUser(user);
+        if(user.getPass().equals(pass1)) {
+            user.setPass(pass2);
+            userDAO.updateUser(user);
+return true;
+        }
+        return false;
     }
 
     @Transactional

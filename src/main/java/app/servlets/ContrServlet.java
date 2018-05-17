@@ -64,7 +64,7 @@ public class ContrServlet {
         Map<String, String> rMap=usr.logon(map);
         if (rMap.get("name")!="null") {
             model.addAttribute("user", rMap);
-            model.addAttribute("message", "");
+            model.addAttribute("message", "true");
             return "cab";
         } else {
             model.addAttribute("message", "false");
@@ -76,14 +76,26 @@ public class ContrServlet {
     @RequestMapping(value = "/repass",method=RequestMethod.POST)
     public String repass(Model model,@RequestParam Map<String, String> map) {
         model.addAttribute("id", map.get("id"));
+        model.addAttribute("name", map.get("name"));
         return "repass";
     }
 
     //Logon repass user
     @RequestMapping(value = "/repasslc",method=RequestMethod.POST)
     public String repasslc(Model model,@RequestParam Map<String, String> map) {
-        usr.updatePass(Integer.parseInt(map.get("id")),map.get("pass"));
-        model.addAttribute("repass","true");
-            return "logon";
+        Map<String, String> rMap = usr.logon(map);
+        if(rMap.get("name") != "null") {
+            model.addAttribute("user", rMap);
+        }else {
+            model.addAttribute("repass", "false");
+            return "cab";
+        }
+
+        if (usr.updatePass(Integer.parseInt(map.get("id")), map.get("pass"), map.get("pass2"))) {
+            model.addAttribute("repass", "true");
+        }else
+            model.addAttribute("repass", "false");
+
+        return "cab";
     }
 }

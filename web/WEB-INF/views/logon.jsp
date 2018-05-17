@@ -23,21 +23,16 @@
                         "</div> </li>");
                 out.println("</ui>");
             }
-        if (request.getAttribute("repass")=="true") {
-            out.print("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n"
-                    +
-                    "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                    "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                    "   <h5>Пароль изменен!</h5>\n" +
-                    "</div>");
-        } else if(request.getAttribute("repass")=="false") {
-            out.print("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n"
-                    +
-                    "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                    "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey\">×</span>\n" +
-                    "   <h5>Ошибка смены пароля!</h5>\n" +
-                    "</div>");
-        }%>
+
+            if(request.getAttribute("repass")=="false") {
+                out.print("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n"
+                        +
+                        "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
+                        "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-red w3-border w3-border-red w3-hover-border-grey\">×</span>\n" +
+                        "   <h5>Ошибка смены пароля! Не верный старый пароль</h5>\n" +
+                        "</div>");
+            }
+        %>
     </div>
 </div>
 <div class="w3-card-4">
