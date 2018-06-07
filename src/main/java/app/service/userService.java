@@ -7,17 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface  userService{
-    public boolean addUser(Map<String, String> map);
+    public boolean addUser(UserEntity user);
 
-    public List<String> listUserName();
+    public List<String> listUser();
 
     public UserEntity getUser(Integer id);
 
-    public int getUserId(String name);
+    public UserEntity getUserName (String name, String pass);
 
     public void removeUser(Integer id);
 
-    public Boolean updatePass(Integer id,String pass1, String pass2);
+    public UserEntity updateUser(UserEntity user);
 
-    public Map<String, String> logon(Map<String, String> map);
 }

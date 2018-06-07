@@ -1,3 +1,6 @@
+<%@ page import="app.entities.UserEntity" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -27,6 +30,26 @@
                     "   <h5>Пользователь " + request.getAttribute("name") + " сушествует!</h5>\n" +
                     "</div>");
         }%>
+        <% UserEntity user = new UserEntity()%>
+            <form:form method="POST"
+                       action="add" modelAttribute="user">
+                <!-- create an html table row -->
+                <tr>
+                    <!-- create cells of row -->
+                    <td>${resultDisplay.date}</td>
+                    <td>${resultDisplay.documentDisplays[0].idNumber}</td>
+                    <td>${resultDisplay.siret}</td>
+                    <td align="center">
+
+                        <input type="submit"
+                               class="btn btn-success" value="Rechercher" name="sync"
+                               id="monSubmit" /></td>
+
+                    <!-- close row -->
+                </tr>
+                <!-- close the loop -->
+            </form:form>
+        </>
         <form action="add" method="post" class="w3-selection w3-light-grey w3-padding">
             <label>Имя:
                 <input type="text" name="name" required pattern="[0-9A-Za-zА-Яа-я]{4,12}" placeholder="Login" class="w3-input w3-animate-input w3-border w3-round-large" style="width: 30%"><br />

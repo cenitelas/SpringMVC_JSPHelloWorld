@@ -6,19 +6,22 @@
 
     <class name="app.entities.UserEntity" table="user" schema="test">
         <id name="userId">
-            <column name="USER_ID" sql-type="int(10) unsigned"/>
+            <column name="user_id" sql-type="int(10) unsigned"/>
         </id>
         <property name="name">
-            <column name="NAME" sql-type="varchar(20)" length="20"/>
+            <column name="name" sql-type="varchar(20)" length="20"/>
         </property>
         <property name="year">
-            <column name="YEAR" sql-type="varchar(20)" length="20"/>
+            <column name="year" sql-type="varchar(20)" length="20"/>
         </property>
         <property name="date">
-            <column name="DATE" sql-type="date"/>
+            <column name="date" sql-type="date"/>
         </property>
         <property name="pass">
-            <column name="PASS" sql-type="varchar(20)" length="20"/>
+            <column name="pass" sql-type="varchar(200)" length="200"/>
+        </property>
+        <property name="hashcode">
+            <column name="hashcode" sql-type="int(255)"/>
         </property>
     </class>
 </hibernate-mapping>

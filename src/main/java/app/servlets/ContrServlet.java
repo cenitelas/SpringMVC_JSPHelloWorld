@@ -2,27 +2,34 @@ package app.servlets;
 
 import app.entities.UserEntity;
 import app.service.userService;
+import app.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import java.util.Date;
-import java.util.HashMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.sql.Date;
 import java.util.Map;
 
 
 @Controller
+@RequestMapping("/")
 public class ContrServlet {
     @Autowired
     private userService usr;
 
+    @Autowired
+    MessageSource messageSource;
+
     //Link to all user
     @RequestMapping(value = "/list")
     public String list(Model model){
-        model.addAttribute("userNames",usr.listUserName());
+        model.addAttribute("userNames",usr.listUser());
         return "list";
     }
 
@@ -41,13 +48,7 @@ public class ContrServlet {
     //Logic for add user
     @RequestMapping(value = "/add",method=RequestMethod.POST)
     public String goReg(Model model,@RequestParam Map<String, String> map) {
-            if (usr.addUser(map)) {
-                model.addAttribute("message", "true");
-                model.addAttribute("name", map.get("name"));
-            } else {
-                model.addAttribute("message", "false");
-                model.addAttribute("name", map.get("name"));
-            }
+
             return "add";
         }
 
@@ -61,15 +62,11 @@ public class ContrServlet {
     //Logic logon user
     @RequestMapping(value = "/cab",method=RequestMethod.POST)
     public String goCab(Model model,@RequestParam Map<String, String> map) {
-        Map<String, String> rMap=usr.logon(map);
-        if (rMap.get("name")!="null") {
-            model.addAttribute("user", rMap);
-            model.addAttribute("message", "true");
+        model.addAttribute("user",usr.getUserName(map.get("name"),map.get("pass")));
+        if(usr.getUserName(map.get("name"),map.get("pass"))!=null) {
             return "cab";
-        } else {
-            model.addAttribute("message", "false");
-            return "logon";
         }
+        return "logon";
     }
 
     //Link repass user
@@ -83,18 +80,6 @@ public class ContrServlet {
     //Logon repass user
     @RequestMapping(value = "/repasslc",method=RequestMethod.POST)
     public String repasslc(Model model,@RequestParam Map<String, String> map) {
-        Map<String, String> rMap = usr.logon(map);
-        if(rMap.get("name") != "null") {
-            model.addAttribute("user", rMap);
-        }else {
-            model.addAttribute("repass", "false");
-            return "cab";
-        }
-
-        if (usr.updatePass(Integer.parseInt(map.get("id")), map.get("pass"), map.get("pass2"))) {
-            model.addAttribute("repass", "true");
-        }else
-            model.addAttribute("repass", "false");
 
         return "cab";
     }

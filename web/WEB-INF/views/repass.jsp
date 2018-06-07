@@ -7,6 +7,7 @@
 </head>
 <body class="w3-light-grey" >
 <div class="modal-content" >
+    ${user.year}
 <form action="repasslc" method="post" class="w3-selection w3-light-grey w3-padding">
     <label>Старый пароль:
     <input type="password" name="pass" class="w3-input w3-animate-input w3-border w3-round-large" style="width: 30%"><br />

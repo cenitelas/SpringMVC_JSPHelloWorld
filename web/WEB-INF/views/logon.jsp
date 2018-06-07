@@ -13,7 +13,7 @@
             <h2 >Страница пользователя</h2>
         </div>
         <%
-            if (request.getAttribute("message") == "false") {
+            if (request.getAttribute("user")==null) {
                 out.println("<ul class=\"w3-ul\">");
                 out.println("<li class=\"w3-hover-sand\"><div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n"
                         +
