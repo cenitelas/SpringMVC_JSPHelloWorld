@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" build-on-make="true" name="SpringMVC_JSPHelloWorld:war exploded">
+  <artifact type="exploded-war" name="SpringMVC_JSPHelloWorld:war exploded">
     <output-path>$PROJECT_DIR$/target/SpringHibernateExample</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
@@ -7,9 +7,6 @@
           <element id="module-output" name="SpringMVC_JSPHelloWorld" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="SpringMVC_JSPHelloWorld-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="SpringMVC_JSPHelloWorld" />
-          </element>
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-redis:2.0.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-keyvalue:2.0.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:2.0.7.RELEASE" />

@@ -43,7 +43,8 @@ public class daoUserImpl implements daoUser {
 
     @Transactional
     public UserEntity getUserName (String name){
-        for(UserEntity user:listUser()){
+        List<UserEntity> list =listUser();
+        for(UserEntity user:list){
             if(name.equals(user.getName())){
                 return user;
             }

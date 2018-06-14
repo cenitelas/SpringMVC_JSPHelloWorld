@@ -38,6 +38,13 @@ public class UserEntity {
     @Column(name = "hashcode", nullable = false)
     private int hashcode;
 
+    public UserEntity(){
+        userId=0;
+        name="";
+        year="";
+        pass="";
+        hashcode=0;
+    }
     public void setDate(java.sql.Date date) {
         this.date = date;
     }

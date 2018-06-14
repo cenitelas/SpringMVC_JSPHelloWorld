@@ -15,6 +15,8 @@ import java.util.Map;
 @RequestMapping("/")
 @SessionAttributes("user")
 public class ContrServlet {
+
+
     @Autowired
     private userService usr;
 
@@ -57,10 +59,12 @@ public class ContrServlet {
     //Logic logon user
     @RequestMapping(value = "/cab",method=RequestMethod.POST)
     public String goCab(Model model,@RequestParam Map<String, String> map) {
-        model.addAttribute("user",usr.getUserName(map.get("name"),map.get("pass")));
-        if(usr.getUserName(map.get("name"),map.get("pass"))!=null) {
+        UserEntity user=usr.getUserName(map.get("name"),map.get("password"));
+        if(user!=null) {
+            model.addAttribute("user",user);
             return "cab";
         }
+        model.addAttribute("message","Не верный логин или пароль!");
         return "logon";
     }
 

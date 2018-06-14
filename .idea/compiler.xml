@@ -9,5 +9,8 @@
         <module name="SpringMVC_JSPHelloWorld" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SpringMVC_JSPHelloWorld" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
