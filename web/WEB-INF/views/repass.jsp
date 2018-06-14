@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%session.setAttribute("user", request.getAttribute("user"));%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>

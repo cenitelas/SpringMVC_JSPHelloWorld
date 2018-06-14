@@ -23,7 +23,7 @@ public class userServiceImpl implements userService {
             return true;
     }
 
-
+    @Transactional
     public List<String> listUser(){
         return userDAO.listUser().stream().map(UserEntity::getName).collect(Collectors.toList());
     }
