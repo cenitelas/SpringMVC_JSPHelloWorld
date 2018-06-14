@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +29,19 @@ public class daoUserImpl implements daoUser {
         return list;
     }
 
-    @SuppressWarnings("unchecked")
+    @Transactional
     public UserEntity getUser(Integer id){
-       UserEntity user= (UserEntity) getSession().get(UserEntity.class, id);
-        return user;
+        try {
+            UserEntity user = (UserEntity) getSession().get(UserEntity.class, id);
+            return user;
+        }
+        catch (Throwable t)
+        {
+            return null;
+        }
     }
 
+    @Transactional
     public UserEntity getUserName (String name){
         for(UserEntity user:listUser()){
             if(name.equals(user.getName())){
@@ -42,10 +51,12 @@ public class daoUserImpl implements daoUser {
         return null;
     }
 
+    @Transactional
     public void removeUser(Integer id) {
         getSession().delete(sessionFactory.getCurrentSession().get(UserEntity.class, id));
     }
 
+    @Transactional
     public void updateUser(UserEntity user){
         getSession().update(user);
     }

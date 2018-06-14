@@ -47,10 +47,9 @@ public class userServiceImpl implements userService {
         userDAO.removeUser(id);
     }
 
-    public UserEntity updateUser(UserEntity user){
-        if(!user.checkUser(userDAO.getUser(user.getUserId()))) return user;
+    @Transactional
+    public void updateUser(UserEntity user){
         userDAO.updateUser(user);
-        return user;
     }
 
 }

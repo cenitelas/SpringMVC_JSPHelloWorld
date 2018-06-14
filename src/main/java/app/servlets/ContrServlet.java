@@ -2,23 +2,18 @@ package app.servlets;
 
 import app.entities.UserEntity;
 import app.service.userService;
-import app.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.Date;
 import java.util.Map;
 
 
 @Controller
 @RequestMapping("/")
+@SessionAttributes("user")
 public class ContrServlet {
     @Autowired
     private userService usr;
@@ -69,18 +64,27 @@ public class ContrServlet {
         return "logon";
     }
 
-    //Link repass user
-    @RequestMapping(value = "/repass",method=RequestMethod.POST)
-    public String repass(Model model,@RequestParam Map<String, String> map) {
-        model.addAttribute("id", map.get("id"));
-        model.addAttribute("name", map.get("name"));
-        return "repass";
-    }
-
-    //Logon repass user
-    @RequestMapping(value = "/repasslc",method=RequestMethod.POST)
-    public String repasslc(Model model,@RequestParam Map<String, String> map) {
-
+    @RequestMapping(value = "/pass",method=RequestMethod.POST)
+    public String repasslc(Model model,@ModelAttribute("user") UserEntity user,@RequestParam Map<String, String> map) {
+        if(map.get("passr").equals(map.get("passr2"))){
+            if(map.get("password").equals(user.getPass())){
+                if(user.checkUser(usr.getUser(user.getUserId()))){
+                    user.setPass(map.get("passr"));
+                    usr.updateUser(user);
+                    model.addAttribute("user",user);
+                    model.addAttribute("message","Пороль обновлен!");
+                }else{
+                    model.addAttribute("message", "Предупреждение!");
+                    return "index";
+                }
+            }else {
+                model.addAttribute("user", user);
+                model.addAttribute("message", "Не верный старый пароль");
+            }
+        }else {
+            model.addAttribute("user",user);
+            model.addAttribute("message","Новые пароли не совпадают");
+        }
         return "cab";
     }
 }

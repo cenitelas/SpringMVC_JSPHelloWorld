@@ -17,6 +17,6 @@ public interface  userService{
 
     public void removeUser(Integer id);
 
-    public UserEntity updateUser(UserEntity user);
+    public void updateUser(UserEntity user);
 
 }
