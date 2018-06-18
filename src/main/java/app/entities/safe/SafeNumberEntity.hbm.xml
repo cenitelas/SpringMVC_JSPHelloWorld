@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="app.entities.safe.SafeNumberEntity" table="safe_number" schema="test">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+        </id>
+        <property name="idUser">
+            <column name="id_user" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="s1">
+            <column name="s1" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="s2">
+            <column name="s2" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="s3">
+            <column name="s3" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="s4">
+            <column name="s4" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
